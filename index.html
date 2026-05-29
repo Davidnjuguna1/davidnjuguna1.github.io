@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Gitwiku Njuguna — Mechanical Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --surface2: #eef2f7;
+    --accent: #50C8BE;
+    --accent2: #2a9d8f;
+    --text: #1a2332;
+    --muted: #6b7a90;
+    --border: #dde3ec;
+    --shadow: 0 4px 24px rgba(80,200,190,0.10), 0 1px 4px rgba(26,35,50,0.07);
+    --shadow-hover: 0 8px 32px rgba(80,200,190,0.18), 0 2px 8px rgba(26,35,50,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed; pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.15;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(245,247,250,0.97), rgba(245,247,250,0));
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    right: -2rem; bottom: -3rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 20vw, 22rem);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(80,200,190,0.12);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block; width: 40px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 9vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+  }
+  h1 span { color: var(--accent); }
+
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 440px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    background: var(--accent);
+    color: #000;
+    padding: 1rem 2.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 rgba(80,200,190,0.35);
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .hero-photo-frame {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 3/4;
+    background: var(--surface2);
+    border: none;
+    box-shadow: var(--shadow-hover);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-photo-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    position: absolute; inset: 0;
+    display: block;
+  }
+
+  .hero-photo-accent {
+    position: absolute;
+    top: -16px; right: -16px;
+    width: 80px; height: 80px;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+  }
+
+  .stats-row {
+    display: flex; gap: 2rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 4rem; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: auto;
+  }
+
+  /* ABOUT */
+  #about {}
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .contact-block {
+    background: var(--surface);
+    border: none;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+  }
+  .contact-block h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .contact-item {
+    display: flex; gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-item-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    min-width: 80px;
+    padding-top: 0.15rem;
+  }
+  .contact-item-val { color: var(--text); word-break: break-all; }
+
+  /* EXPERIENCE */
+  #experience {}
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-item {
+    padding-left: 3rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .timeline-item.visible { opacity: 1; transform: none; }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -5px; top: 0.4rem;
+    width: 11px; height: 11px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .tl-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .tl-role {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+  }
+  .tl-desc {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 600px;
+  }
+
+  /* PROJECTS */
+  #projects {}
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+  }
+  .project-card {
+    background: var(--surface2);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s, transform 0.6s, background 0.3s;
+  }
+  .project-card.visible { opacity: 1; transform: none; }
+  .project-card:hover { background: var(--surface); }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-photo {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-photo::after {
+    content: 'ADD PHOTO';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: var(--border);
+  }
+  .project-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute; inset: 0;
+    display: none;
+  }
+  .project-photo img.loaded { display: block; }
+
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.75rem;
+  }
+  .project-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .project-tags {
+    margin-top: 1.5rem;
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.3rem 0.75rem;
+    color: var(--muted);
+    background: var(--bg);
+  }
+  .project-card-wide:hover .tag { border-color: var(--accent); color: var(--accent2); }
+
+  /* SKILLS */
+  #skills {}
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .skill-cell {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .skill-cell:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+  .skill-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .skill-list { list-style: none; }
+  .skill-list li {
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    display: flex; align-items: center; gap: 0.75rem;
+    transition: color 0.2s;
+  }
+  .skill-list li:last-child { border-bottom: none; }
+  .skill-cell:hover .skill-list li { color: var(--text); }
+  .skill-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* REFERENCES */
+  #references {}
+  .refs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .ref-card {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--accent);
+  }
+  .ref-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .ref-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .ref-org {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+  .ref-contact {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem;
+    border-top: 2px solid var(--border); background: var(--surface);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+  }
+  .footer-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* PHOTO UPLOAD OVERLAY (helper for dev) */
+  .upload-hint {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    padding: 1rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    z-index: 200;
+    max-width: 220px;
+    line-height: 1.6;
+  }
+  .upload-hint strong { display: block; margin-bottom: 0.5rem; color: var(--text); }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    nav { padding: 1.5rem 2rem; }
+    #hero { grid-template-columns: 1fr; padding: 8rem 2rem 4rem; }
+    .hero-right { align-items: flex-start; }
+    .hero-photo-frame { max-width: 300px; }
+    section { padding: 4rem 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .refs-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    h1 { font-size: 3.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+
+  /* WIDE PROJECT CARDS */
+  .projects-grid-wide {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .project-card-wide {
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s, transform 0.6s, box-shadow 0.3s;
+  }
+  .project-card-wide.visible { opacity: 1; transform: none; }
+  .project-card-wide:hover { box-shadow: var(--shadow-hover); }
+  .project-card-wide.reverse { direction: rtl; }
+  .project-card-wide.reverse > * { direction: ltr; }
+  .proj-gallery {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+  .gallery-main {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+  }
+  .gallery-main img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.4s;
+  }
+  .project-card-wide:hover .gallery-main img { transform: scale(1.03); }
+  .gallery-thumbs {
+    display: flex;
+    gap: 3px;
+    padding: 4px;
+    background: var(--bg);
+    height: 70px;
+    flex-shrink: 0;
+  }
+  .thumb {
+    flex: 1;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    border: 1px solid transparent;
+  }
+  .thumb:hover { opacity: 0.8; }
+  .thumb.active { opacity: 1; border-color: var(--accent); }
+  .proj-info {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .nakuja-placeholder {
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-placeholder {
+    text-align: center;
+  }
+  .vp-icon {
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  .vp-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .vp-sub {
+    font-size: 0.8rem;
+    color: var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+  }
+  @media (max-width: 900px) {
+    .project-card-wide { grid-template-columns: 1fr; }
+    .project-card-wide.reverse { direction: ltr; }
+    .proj-gallery { min-height: 260px; }
+  }
+
+
+  /* VIDEO GALLERY */
+  .video-gallery { flex-direction: column; }
+  .vid-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--border);
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .vid-tab {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--bg);
+    color: var(--muted);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .vid-tab.active { background: var(--accent); color: #fff; font-weight: 700; }
+  .vid-tab:hover:not(.active) { background: var(--border); color: var(--text); }
+  .proj-video {
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    display: none;
+    min-height: 280px;
+    max-height: 380px;
+    background: #000;
+  }
+  .proj-video.active-vid { display: block; }
+
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DGN — MechEng</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Mechanical Engineer · Kenya</div>
+    <h1>David<br><span>Gitwiku</span><br>Njuguna</h1>
+    <p class="hero-desc">
+      Mechanical Engineering graduate with hands-on experience spanning rocket airframe design, 
+      EV development, pump maintenance, and industrial machinery — turning complex systems into 
+      working reality.
+    </p>
+    <a href="#projects" class="hero-cta">View My Work →</a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-frame" id="heroPhoto">
+      <img id="heroImg" src="images/img_001.jpg" alt="David Gitwiku Njuguna" class="loaded">
+      <div class="hero-photo-accent"></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Internships</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Major Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">CAD / CAE Tools</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-bg-text">MECH</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background: var(--surface);">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a <strong>Mechanical Engineering graduate</strong> from JKUAT with a broad foundation 
+        in structural design, propulsion systems, fluid mechanics, and electromechanical engineering. 
+        My journey spans the full design cycle — from CAD modelling to physical fabrication and systems testing.
+      </p>
+      <p>
+        My internship at the <strong>JKUAT Nakuja Rocket Project</strong> gave me rare exposure to aerospace 
+        engineering in Africa, where I worked on fin design, nose cone fabrication, parachute recovery 
+        systems, and launch infrastructure for the N-3 rocket.
+      </p>
+      <p>
+        As <strong>project lead on an Electric Vehicle design</strong>, I managed all mechanical subsystems 
+        including body structure, suspension geometry, transmission, braking, and thermal management — 
+        delivering complete CAD documentation.
+      </p>
+      <p>
+        I bring strong proficiency in <strong>Autodesk Inventor, SolidWorks, AutoCAD, ANSYS CFD/FEA</strong>, 
+        and embedded programming with Arduino and C++, combining analytical rigour with practical build experience.
+      </p>
+    </div>
+    <div>
+      <div class="contact-block">
+        <h3>Contact Information</h3>
+        <div class="contact-item">
+          <div class="contact-item-label">Phone</div>
+          <div class="contact-item-val">0740 347 993</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-val">gitwikunjuguna@gmail.com</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Location</div>
+          <div class="contact-item-val">Kenya</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Education</div>
+          <div class="contact-item-val">BSc. Mechanical Engineering — JKUAT</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Status</div>
+          <div class="contact-item-val">Graduate · Open to Opportunities</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="tl-meta">Dec 2025 – Mar 2026 · Elipa Embroidery</div>
+      <div class="tl-role">Machine Technician & Operator</div>
+      <div class="tl-desc">
+        Industrial machine operation, maintenance, and technical troubleshooting for an embroidery production facility. Responsibilities covered machine setup, fault diagnosis, and ensuring optimal operational performance.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-meta">Jun – Aug 2024 · NCWSC, Gigiri</div>
+      <div class="tl-role">Maintenance Engineering Intern</div>
+      <div class="tl-desc">
+        Internship at Nairobi County Water and Sewerage Company. Conducted scheduled pump maintenance programs including full overhauls, lubrication servicing, and continuous condition monitoring of pumping systems to ensure service reliability.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-meta">Jun – Aug 2023 · JKUAT Nakuja Project, Juja</div>
+      <div class="tl-role">Airframe Engineering Intern</div>
+      <div class="tl-desc">
+        Member of the structural design team for the N-3 rocket at JKUAT's Nakuja Project — one of Africa's premier university rocket development programmes. Designed and fabricated the rocket fins, body, nose cone, recovery parachute system, and launch pad infrastructure.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: var(--bg);">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Key Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid-wide">
+
+    <!-- EV Design -->
+    <div class="project-card-wide">
+      <div class="proj-gallery">
+        <div class="gallery-main">
+          <img class="gallery-active" src="images/img_002.png" alt="EV full chassis isometric">
+        </div>
+        <div class="gallery-thumbs">
+          <img src="images/img_003.png" class="thumb active" onclick="switchImg(this)" title="Full chassis — isometric">
+          <img src="images/img_004.png" class="thumb" onclick="switchImg(this)" title="Full assembly engineering drawing (D-size)">
+          <img src="images/img_005.png" class="thumb" onclick="switchImg(this)" title="Motor & transmission — isometric">
+          <img src="images/img_006.png" class="thumb" onclick="switchImg(this)" title="Cooling system frame assembly">
+          <img src="images/img_007.png" class="thumb" onclick="switchImg(this)" title="Steering column assembly">
+          <img src="images/img_008.png" class="thumb" onclick="switchImg(this)" title="Suspension & wheel detail">
+          <img src="images/img_009.png" class="thumb" onclick="switchImg(this)" title="Chassis frame — isolated">
+          <img src="images/img_010.png" class="thumb" onclick="switchImg(this)" title="Full assembly engineering drawing">
+        </div>
+      </div><div class="proj-info">
+        <div class="project-num">P — 01</div>
+        <div class="project-name">Electric Vehicle Design</div>
+        <div class="project-desc">
+          Entered the SES (Society of Engineering Students) JKUAT Electric Vehicle Design Competition with a brief to design a fully electric saloon car. As the sole mechanical designer, I was responsible for every structural and mechanical subsystem: the vehicle chassis, body panels, transmission, suspension geometry, and cooling system — all modelled in Autodesk Inventor. The competition gave designers freedom to select motor, weight, and range specifications, so design decisions were driven by efficiency, structural integrity, and manufacturability. The project was a complete CAD and simulation exercise, with full engineering drawings produced for each subsystem.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Autodesk Inventor</span>
+          <span class="tag">Chassis Design</span>
+          <span class="tag">Suspension</span>
+          <span class="tag">Transmission</span>
+          <span class="tag">Cooling System</span>
+          <span class="tag">SES Competition</span>
+          <span class="tag">JKUAT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vacuum Chamber -->
+    <div class="project-card-wide reverse">
+      <div class="proj-gallery">
+        <div class="gallery-main">
+          <img class="gallery-active" src="images/img_011.jpg" alt="Vacuum chamber full assembly">
+        </div>
+        <div class="gallery-thumbs">
+          <img src="images/img_012.jpg" class="thumb active" onclick="switchImg(this)" title="Full system assembly">
+          <img src="images/img_013.jpg" class="thumb" onclick="switchImg(this)" title="Avocado pulp under vacuum">
+          <img src="images/img_014.jpg" class="thumb" onclick="switchImg(this)" title="Control electronics enclosure">
+          <img src="images/img_015.jpg" class="thumb" onclick="switchImg(this)" title="LCD control interface">
+          <img src="images/img_016.png" class="thumb" onclick="switchImg(this)" title="3D CAD render">
+          <img src="images/img_017.png" class="thumb" onclick="switchImg(this)" title="Technical drawing — section view">
+          <img src="images/img_018.png" class="thumb" onclick="switchImg(this)" title="Agitator detail drawing">
+          <img src="images/img_019.png" class="thumb" onclick="switchImg(this)" title="Arduino relay circuit">
+        </div>
+      </div><div class="proj-info">
+        <div class="project-num">P — 02</div>
+        <div class="project-name">Heated Vacuum Chamber with Agitator</div>
+        <div class="project-desc">
+          Final year project — designed and built a heated vacuum chamber for drying avocado pulp prior to oil extraction. Operating conditions: 12.35 kPa vacuum at 50°C. The core engineering challenge was achieving a fully airtight chamber enclosure while still routing data cables out of the vessel for automated monitoring and control — requiring custom feedthrough seals. A second major challenge was integrating the agitation system inside the sealed chamber to keep the pulp in motion during the drying cycle. An Arduino-based relay control circuit was developed for automation. The chamber was successfully fabricated and tested.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Final Year Project</span>
+          <span class="tag">SolidWorks</span>
+          <span class="tag">Arduino</span>
+          <span class="tag">Vacuum Systems</span>
+          <span class="tag">12.35 kPa / 50°C</span>
+          <span class="tag">Agitation Design</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Fabrication &amp; Testing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nakuja Rocket -->
+    
+
+    <!-- CAD Animations - Chain & Gear -->
+    <div class="project-card-wide">
+      <div class="proj-gallery video-gallery">
+        <div class="vid-tabs">
+          <button class="vid-tab active" onclick="switchVideo(this, 'vid-chain')">Chain &amp; Sprocket</button>
+          <button class="vid-tab" onclick="switchVideo(this, 'vid-gear')">Planetary Gear</button>
+        </div>
+        <video id="vid-chain" class="proj-video active-vid" autoplay loop muted playsinline>
+          <source src="videos/vid_001.mp4" type="video/mp4">
+        </video>
+        <video id="vid-gear" class="proj-video" autoplay loop muted playsinline>
+          <source src="videos/vid_002.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="proj-info">
+        <div class="project-num">P — 03</div>
+        <div class="project-name">CAD Assembly Animations</div>
+        <div class="project-desc">
+          Hobby SolidWorks practice projects — modelled and animated a chain-and-sprocket power transmission assembly and a planetary gear train to develop proficiency in SolidWorks motion studies and assembly constraints. Both mechanisms were built from scratch following tutorials as part of a deliberate effort to expand CAD toolset beyond Autodesk Inventor. The animations demonstrate an understanding of kinematic relationships, mate configurations, and mechanical motion simulation.
+        </div>
+        <div class="project-tags">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">Motion Study</span>
+          <span class="tag">Assembly Constraints</span>
+          <span class="tag">Chain &amp; Sprocket</span>
+          <span class="tag">Planetary Gear Train</span>
+          <span class="tag">Hobby</span>
+        </div>
+      </div>
+    </div>
+    <!-- ANSYS: Rocket Fin CFD & FEA -->
+    <div class="project-card-wide">
+      <div class="proj-gallery">
+        <div class="gallery-main">
+          <img class="gallery-active" src="images/img_020.png" alt="Rocket fin CFD airflow">
+        </div>
+        <div class="gallery-thumbs">
+          <img src="images/img_021.png" class="thumb active" onclick="switchImg(this)" title="CFD Airflow">
+          <img src="images/img_022.png" class="thumb" onclick="switchImg(this)" title="Total Deformation">
+          <img src="images/img_023.png" class="thumb" onclick="switchImg(this)" title="Von-Mises Stress">
+          <img src="images/img_024.png" class="thumb" onclick="switchImg(this)" title="Directional Deformation">
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="project-num">P — 04</div>
+        <div class="project-name">Airfoil CFD &amp; FEA Analysis</div>
+        <div class="project-desc">
+          Hobby simulation project completed as part of formal ANSYS training. Performed a coupled aerodynamic and structural analysis on an airfoil geometry: CFD for pressure distribution and wake flow visualisation, followed by FEA for total deformation, von-Mises equivalent stress, and Y-axis directional deformation under aerodynamic loading. The project served as a practical introduction to the full ANSYS simulation workflow — from geometry setup through to results interpretation.
+        </div>
+        <div class="project-tags">
+          <span class="tag">ANSYS CFD</span>
+          <span class="tag">ANSYS FEA</span>
+          <span class="tag">Airfoil Analysis</span>
+          <span class="tag">Von-Mises Stress</span>
+          <span class="tag">Hobby</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANSYS: Fin-Tube Heat Exchanger -->
+    <div class="project-card-wide reverse">
+      <div class="proj-gallery">
+        <div class="gallery-main">
+          <img class="gallery-active" src="images/img_025.png" alt="Fin-tube heat exchanger thermal CFD">
+        </div>
+        <div class="gallery-thumbs">
+          <img src="images/img_026.png" class="thumb active" onclick="switchImg(this)" title="Thermal contour front">
+          <img src="images/img_027.png" class="thumb" onclick="switchImg(this)" title="Thermal contour rear">
+          <img src="images/img_028.png" class="thumb" onclick="switchImg(this)" title="Convergence plot">
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="project-num">P — 05</div>
+        <div class="project-name">Fin-Tube Heat Exchanger CFD</div>
+        <div class="project-desc">
+          Hobby ANSYS Fluent project to develop proficiency in thermal CFD. Designed and simulated a fin-tube heat exchanger with the objective of heating an airstream to dry maize kernels — a practical agricultural application. Water was used as the working fluid on the tube side. Thermal contour results show the temperature gradient across the fin and tube surfaces (330–363 K), with residual convergence plots confirming solution stability across 200 solver iterations. The project strengthened skills in mesh setup, boundary condition definition, and post-processing of thermal results.
+        </div>
+        <div class="project-tags">
+          <span class="tag">ANSYS Fluent</span>
+          <span class="tag">Thermal CFD</span>
+          <span class="tag">Fin-Tube HEX</span>
+          <span class="tag">Maize Drying</span>
+          <span class="tag">Water-Air Heat Transfer</span>
+          <span class="tag">Hobby</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANSYS: Shell & Tube Heat Exchanger -->
+    <div class="project-card-wide">
+      <div class="proj-gallery">
+        <div class="gallery-main">
+          <img class="gallery-active" src="images/img_029.png" alt="Shell and tube heat exchanger CAD">
+        </div>
+        <div class="gallery-thumbs">
+          <img src="images/img_030.png" class="thumb active" onclick="switchImg(this)" title="SolidWorks CAD model">
+          <img src="images/img_031.png" class="thumb" onclick="switchImg(this)" title="ANSYS mesh">
+          <img src="images/img_032.png" class="thumb" onclick="switchImg(this)" title="Tube temperature (hot side)">
+          <img src="images/img_033.png" class="thumb" onclick="switchImg(this)" title="Shell temperature (cold side)">
+        </div>
+      </div>
+      <div class="proj-info">
+        <div class="project-num">P — 06</div>
+        <div class="project-name">Shell &amp; Tube Heat Exchanger CFD</div>
+        <div class="project-desc">
+          Hobby project to extend ANSYS simulation skills into shell-and-tube heat exchanger analysis, following an established tutorial geometry. The full workflow was completed independently: CAD modelling in SolidWorks, mesh generation in ANSYS (913,808 nodes / 4,183,800 elements, Fluent solver, linear elements at 5 mm sizing), and thermal CFD with named selections for gas and water inlets/outlets. Temperature results show the hot-side gas cooling from 723 K inlet to outlet, with the shell-side coolant absorbing the heat load. More simulation images to follow.
+        </div>
+        <div class="project-tags">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">ANSYS Fluent</span>
+          <span class="tag">Shell &amp; Tube HEX</span>
+          <span class="tag">4.18M Elements</span>
+          <span class="tag">Thermal CFD</span>
+          <span class="tag">Hobby</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-cell">
+      <div class="skill-category">CAD Software</div>
+      <ul class="skill-list">
+        <li>Autodesk Inventor</li>
+        <li>AutoCAD</li>
+        <li>SolidWorks</li>
+        <li>ArchiCAD</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-category">CAE / Simulation</div>
+      <ul class="skill-list">
+        <li>ANSYS CFD</li>
+        <li>ANSYS FEA</li>
+        <li>Structural Analysis</li>
+        <li>Fluid Dynamics</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-category">Programming</div>
+      <ul class="skill-list">
+        <li>C++ (Basic)</li>
+        <li>MATLAB</li>
+        <li>Arduino</li>
+        <li>Embedded Systems</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-category">Engineering</div>
+      <ul class="skill-list">
+        <li>Mechanical Design</li>
+        <li>Pump Maintenance</li>
+        <li>Fabrication</li>
+        <li>Systems Monitoring</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references" style="background: var(--surface);">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">References</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="refs-grid">
+    <div class="ref-card">
+      <div class="ref-name">Mr Robert Wahome</div>
+      <div class="ref-title">Attachment Supervisor</div>
+      <div class="ref-org">Nairobi County Water and Sewerage Company (NCWSC)</div>
+      <div class="ref-contact">0722 824 130</div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-name">Mr Alex Ngugi</div>
+      <div class="ref-title">Supervisor</div>
+      <div class="ref-org">Elipa Embroidery</div>
+      <div class="ref-contact">0724 766 444</div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-name">Mr Paul Njuguna</div>
+      <div class="ref-title">Supervisor</div>
+      <div class="ref-org">Elipa Embroidery</div>
+      <div class="ref-contact">0734 787 939</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">David Gitwiku Njuguna</div>
+  <div class="footer-right">
+    Mechanical Engineer<br>
+    gitwikunjuguna@gmail.com · 0740 347 993
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+
+  // Scroll reveal
+  const items = document.querySelectorAll('.timeline-item, .project-card, .project-card-wide');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 120);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(el => observer.observe(el));
+
+  // Photo slots — replace src values here when you have photos
+  // Example: document.getElementById('heroImg').src = 'your-photo.jpg';
+  // Then add class 'loaded' to display it:
+  // document.getElementById('heroImg').classList.add('loaded');
+
+  // Helper function to load a photo into a slot
+  window.loadPhoto = function(slotId, imgId, src) {
+    const img = document.getElementById(imgId);
+    img.src = src;
+    img.onload = () => img.classList.add('loaded');
+  };
+
+  // Gallery image switcher
+  function switchImg(thumb) {
+    const gallery = thumb.closest('.proj-gallery');
+    const mainImg = gallery.querySelector('.gallery-active');
+    const allThumbs = gallery.querySelectorAll('.thumb');
+    mainImg.src = thumb.src;
+    allThumbs.forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
+
+
+  // Video tab switcher
+  function switchVideo(btn, targetId) {
+    const gallery = btn.closest('.proj-gallery');
+    gallery.querySelectorAll('.vid-tab').forEach(t => t.classList.remove('active'));
+    gallery.querySelectorAll('.proj-video').forEach(v => v.classList.remove('active-vid'));
+    btn.classList.add('active');
+    const vid = document.getElementById(targetId);
+    vid.classList.add('active-vid');
+    vid.play();
+  }
+
+</script>
+</body>
+</html>
